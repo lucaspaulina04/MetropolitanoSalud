@@ -1,0 +1,58 @@
+{
+  "annotations": {
+    "changelogDate": "20241117195705"
+  },
+  "fields": [
+    {
+      "fieldName": "fechaHora",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacienteID",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "medicoID",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "centroSaludID",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "estadoHora",
+      "fieldType": "String"
+    }
+  ],
+  "name": "AgendaMedica",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "nombre",
+      "otherEntityName": "paciente",
+      "otherEntityRelationshipName": "pacientes",
+      "relationshipName": "pacienteHora",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "nombre",
+      "otherEntityName": "medicos",
+      "otherEntityRelationshipName": "horaMedico",
+      "relationshipName": "horasMedicas",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "nombre",
+      "otherEntityName": "centroSalud",
+      "otherEntityRelationshipName": "horaCentroSalud",
+      "relationshipName": "horasCentroSalud",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "no"
+}

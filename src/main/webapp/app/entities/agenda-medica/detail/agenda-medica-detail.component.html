@@ -1,0 +1,76 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (agendaMedica(); as agendaMedicaRef) {
+      <div>
+        <h2 data-cy="agendaMedicaDetailsHeading"><span>Agenda Medica</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span>ID</span></dt>
+          <dd>
+            <span>{{ agendaMedicaRef.id }}</span>
+          </dd>
+          <dt><span>Fecha Hora</span></dt>
+          <dd>
+            <span>{{ agendaMedicaRef.fechaHora }}</span>
+          </dd>
+          <dt><span>Paciente ID</span></dt>
+          <dd>
+            <span>{{ agendaMedicaRef.pacienteID }}</span>
+          </dd>
+          <dt><span>Medico ID</span></dt>
+          <dd>
+            <span>{{ agendaMedicaRef.medicoID }}</span>
+          </dd>
+          <dt><span>Centro Salud ID</span></dt>
+          <dd>
+            <span>{{ agendaMedicaRef.centroSaludID }}</span>
+          </dd>
+          <dt><span>Estado Hora</span></dt>
+          <dd>
+            <span>{{ agendaMedicaRef.estadoHora }}</span>
+          </dd>
+          <dt><span>Paciente Hora</span></dt>
+          <dd>
+            @if (agendaMedica()!.pacienteHora) {
+              <div>
+                <a [routerLink]="['/paciente', agendaMedica()!.pacienteHora?.id, 'view']">{{ agendaMedicaRef.pacienteHora?.nombre }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span>Horas Medicas</span></dt>
+          <dd>
+            @if (agendaMedica()!.horasMedicas) {
+              <div>
+                <a [routerLink]="['/medicos', agendaMedica()!.horasMedicas?.id, 'view']">{{ agendaMedicaRef.horasMedicas?.nombre }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span>Horas Centro Salud</span></dt>
+          <dd>
+            @if (agendaMedica()!.horasCentroSalud) {
+              <div>
+                <a [routerLink]="['/centro-salud', agendaMedica()!.horasCentroSalud?.id, 'view']">{{
+                  agendaMedicaRef.horasCentroSalud?.nombre
+                }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/agenda-medica', agendaMedicaRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

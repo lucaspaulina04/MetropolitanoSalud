@@ -1,0 +1,178 @@
+<div>
+  <h2 id="page-heading" data-cy="AgendaMedicaHeading">
+    <span>Agenda Medicas</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-agenda-medica"
+        [routerLink]="['/agenda-medica/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span>Crear nuevo Agenda Medica</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (agendaMedicas?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span>Ningún Agenda Medicas encontrado</span>
+    </div>
+  }
+
+  @if (agendaMedicas && agendaMedicas.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span>ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="fechaHora">
+              <div class="d-flex">
+                <span>Fecha Hora</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="pacienteID">
+              <div class="d-flex">
+                <span>Paciente ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="medicoID">
+              <div class="d-flex">
+                <span>Medico ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="centroSaludID">
+              <div class="d-flex">
+                <span>Centro Salud ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="estadoHora">
+              <div class="d-flex">
+                <span>Estado Hora</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="pacienteHora.nombre">
+              <div class="d-flex">
+                <span>Paciente Hora</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="horasMedicas.nombre">
+              <div class="d-flex">
+                <span>Horas Medicas</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="horasCentroSalud.nombre">
+              <div class="d-flex">
+                <span>Horas Centro Salud</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (agendaMedica of agendaMedicas; track trackId(agendaMedica)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/agenda-medica', agendaMedica.id, 'view']">{{ agendaMedica.id }}</a>
+              </td>
+              <td>{{ agendaMedica.fechaHora }}</td>
+              <td>{{ agendaMedica.pacienteID }}</td>
+              <td>{{ agendaMedica.medicoID }}</td>
+              <td>{{ agendaMedica.centroSaludID }}</td>
+              <td>{{ agendaMedica.estadoHora }}</td>
+              <td>
+                @if (agendaMedica.pacienteHora) {
+                  <div>
+                    <a [routerLink]="['/paciente', agendaMedica.pacienteHora.id, 'view']">{{ agendaMedica.pacienteHora.nombre }}</a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (agendaMedica.horasMedicas) {
+                  <div>
+                    <a [routerLink]="['/medicos', agendaMedica.horasMedicas.id, 'view']">{{ agendaMedica.horasMedicas.nombre }}</a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (agendaMedica.horasCentroSalud) {
+                  <div>
+                    <a [routerLink]="['/centro-salud', agendaMedica.horasCentroSalud.id, 'view']">{{
+                      agendaMedica.horasCentroSalud.nombre
+                    }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/agenda-medica', agendaMedica.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">Vista</span>
+                  </a>
+
+                  <a [routerLink]="['/agenda-medica', agendaMedica.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Editar</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(agendaMedica)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Eliminar</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (agendaMedicas && agendaMedicas.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

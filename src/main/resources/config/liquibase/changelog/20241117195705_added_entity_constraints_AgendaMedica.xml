@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--
+        Added the constraints for entity AgendaMedica.
+    -->
+    <changeSet id="20241117195705-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="paciente_hora_id"
+                                 baseTableName="agenda_medica"
+                                 constraintName="fk_agenda_medica__paciente_hora_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="paciente"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="horas_medicas_id"
+                                 baseTableName="agenda_medica"
+                                 constraintName="fk_agenda_medica__horas_medicas_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="medicos"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="horas_centro_salud_id"
+                                 baseTableName="agenda_medica"
+                                 constraintName="fk_agenda_medica__horas_centro_salud_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="centro_salud"
+                                 />
+    </changeSet>
+</databaseChangeLog>
